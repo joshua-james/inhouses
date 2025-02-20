@@ -4,10 +4,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/sanity")
 public class SanityController {
+
+    private Random random = new Random();
+    private boolean bobiSane = random.nextBoolean();
     
     @GetMapping("")
     public Map<String, Object> main() {
@@ -36,5 +40,22 @@ public class SanityController {
                 "message", e);
             return response;
         }
+    }
+
+    @GetMapping("/bobi")
+    public Map<String, Object> bobi() {
+        Map<String, Object> response = null;
+        if (bobiSane) {
+            response = Map.of(
+                "status", 200,
+                "message", "A-OK, chief."
+            );
+        } else {
+            response = Map.of(
+                "status", 500,
+                "message", "He missed his meds, so he atleast has all his friends! :D"
+            );
+        }
+        return response;
     }
 }
